@@ -13,4 +13,5 @@ it waits for all pending output to be written to the terminal, and also discards
 We use the bitwise-NOT operator (~) on this value to get 11111111111111111111111111110111. 
 We then bitwise-AND this value with the flags field, which forces the fourth bit in the flags field to become 0, and causes every other bit to retain its current value.
 
-
+6. we store the original terminal attr in a global variable orig_termios and work with a copy of it in enableRawMode function.
+7. when ICANON is set, terminal works in canonical mode, we unset it... now the program quits instantly when we press 'q'.
