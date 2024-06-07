@@ -1,15 +1,20 @@
+// includes
 #include <stdio.h>
 #include <stdlib.h>
 #include <termios.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <errno.h>
-struct termios orig_termios;
 
+// defines
 #define CTRL_KEY(k) ((k) & 0x1f)
-
+// data
+struct termios orig_termios;
+// terminal
 void die(const char *s)
 {
+    write(STDOUT_FILENO, "\x1b[2J", 4); // clears screen
+    write(STDOUT_FILENO, "\1xb[H", 3);
     perror(s);
     exit(1);
 }
@@ -37,27 +42,43 @@ void enableRawMode()
         die("tcsetattr");
 }
 
+char editorReadKey()
+{
+    int nread;
+    char c;
+    while ((nread = read(STDIN_FILENO, &c, 1)) != 1) // runs until a char is read
+    {
+        if (nread == -1 && errno != EAGAIN)
+            die("read");
+    }
+    return c;
+}
+// input
+void editorProcessKeypress()
+{
+    char c = editorReadKey();
+    switch (c)
+    {
+    case CTRL_KEY('x'):
+        exit(0);
+        break;
+    }
+}
+// output
+void editorRefreshScreen()
+{
+    write(STDOUT_FILENO, "\x1b[2J", 4); // clears screen
+    write(STDOUT_FILENO, "\1xb[H", 3);  // cursor back to starting
+}
+// init
 int main()
 {
     enableRawMode();
 
     while (1)
     {
-        char c = '\0';
-        if (read(STDIN_FILENO, &c, 1) == -1 && errno != EAGAIN)
-            die("read");
-        if (iscntrl(c))
-        {
-            printf("%d\r\n", c);
-        }
-        else
-        {
-            printf("%d ('%c')\r\n", c, c);
-        }
-        if (c == CTRL_KEY('x'))
-        {
-            break;
-        }
+        editorRefreshScreen();
+        editorProcessKeypress();
     }
     return 0;
 }

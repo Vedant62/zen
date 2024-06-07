@@ -18,3 +18,6 @@ We then bitwise-AND this value with the flags field, which forces the fourth bit
 
 C.
 1.Changed the exitting to CTRL + Q.
+2. note that EAGAIN is a special error code indicating that no data is available right now, but it's not a permanent error.
+3. Escape seq always start with \x1b (27) and then [
+Escape sequences instruct the terminal to do various text formatting tasks, such as coloring text, moving the cursor around, and clearing parts of the screen.
