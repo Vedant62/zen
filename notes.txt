@@ -1,0 +1,4 @@
+1. -Wall : compiler warns if it sees questionable code.
+2. -std=c99 specifies the exact version of the C language standard we’re using, which is C99. C99 allows us to declare variables anywhere within a function, whereas ANSI C 
+requires all variables to be declared at the top of a function or block.
+3. 
