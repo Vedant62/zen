@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include <sys/ioctl.h>
+#include <string.h>
 
 // defines
 #define CTRL_KEY(k) ((k) & 0x1f)
@@ -74,6 +75,28 @@ int getWindowSize(int *rows, int *cols)
         return 0;
     }
 }
+// appendBuffer
+struct abuf
+{
+    char *b;
+    int len;
+};
+#define ABUF_INIT {NULL, 0};
+void abAppend(struct abuf *ab, const char *s, int len)
+{
+    char *new = realloc(ab->b, ab->len + len); // syntax = realloc(ptr, newSize)
+    if (new == NULL)
+    {
+        return;
+    }
+    memcpy(&new[ab->len], s, len); // syntax = memcpy(to, from, numBytes)
+    ab->b = new;
+    ab->len += len;
+}
+void abFree(struct abuf *ab)
+{
+    free(ab->b);
+}
 // input
 void editorProcessKeypress()
 {
@@ -88,24 +111,28 @@ void editorProcessKeypress()
     }
 }
 // output
-void editorDrawRows()
+void editorDrawRows(struct abuf *ab)
 {
     int y;
     for (y = 0; y < E.screenrows; y++)
     {
-        write(STDOUT_FILENO, "~", 1);
+        abAppend(ab, "~", 1);
         if (y < E.screenrows - 1)
         {
-            write(STDOUT_FILENO, "\r\n", 2);
+            abAppend(ab, "\r\n", 2);
         }
     }
 }
 void editorRefreshScreen()
 {
-    write(STDOUT_FILENO, "\x1b[2J", 4); // clears screen
-    write(STDOUT_FILENO, "\x1b[H", 3);  // cursor back to starting
-    editorDrawRows();
-    write(STDOUT_FILENO, "\x1b[H", 3);
+    struct abuf ab = ABUF_INIT;
+    abAppend(&ab, "\x1b[2J", 4); // clears screen
+    abAppend(&ab, "\x1b[H", 3);  // cursor back to starting
+    editorDrawRows(&ab);
+    abAppend(&ab, "\x1b[H", 3);
+
+    write(STDOUT_FILENO, ab.b, ab.len);
+    abFree(&ab);
 }
 
 // init

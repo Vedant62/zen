@@ -23,3 +23,9 @@ C.
 Escape sequences instruct the terminal to do various text formatting tasks, such as coloring text, moving the cursor around, and clearing parts of the screen.
 4. added Wno-strict-prototypes for that warning to go away.
 5. should be able to get the size of the terminal by simply calling ioctl() with the TIOCGWINSZ request.
+
+6. Rather than the repititive write() calls, we'll only call write on the buffer string thing which is our own dynamic string type
+which supports one operation: appending.
+7. realloc is used to resize the buffer. If the reallocation is successful, realloc returns a pointer to the newly allocated memory, else NULL.
+memcpy copies the 's' to the end of the 'new'.. thus appending.
+
