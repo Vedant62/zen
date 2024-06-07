@@ -15,3 +15,6 @@ We then bitwise-AND this value with the flags field, which forces the fourth bit
 
 6. we store the original terminal attr in a global variable orig_termios and work with a copy of it in enableRawMode function.
 7. when ICANON is set, terminal works in canonical mode, we unset it... now the program quits instantly when we press 'q'.
+
+C.
+1.Changed the exitting to CTRL + Q.
