@@ -1,4 +1,16 @@
+A.
 1. -Wall : compiler warns if it sees questionable code.
-2. -std=c99 specifies the exact version of the C language standard we’re using, which is C99. C99 allows us to declare variables anywhere within a function, whereas ANSI C 
-requires all variables to be declared at the top of a function or block.
-3. 
+2. -std=c99 specifies the exact version of the C language standard we’re using, which is C99. C99 allows us to declare variables 
+anywhere within a function, whereas ANSI C requires all variables to be declared at the top of a function or block.
+
+B.
+1. canonical/cooked mode is when user is required to press ENTER for the input to register, what we want is RAW mode.
+2. ECHO prints what you type in terminal so that we can see it, but we turn it off in RAW mode like when entering the sudo pwd.
+3. We read the terminal attributes into the raw struct -> switched off echo -> set the attr ... TCSAFLUSH tells when to apply changes, in this case,
+it waits for all pending output to be written to the terminal, and also discards any input that hasn’t been read.
+4. c_lflags (local flags), we have to modify some flags for raw mode.
+5. ECHO is a bitflag, defined as 00000000000000000000000000001000 in binary. 
+We use the bitwise-NOT operator (~) on this value to get 11111111111111111111111111110111. 
+We then bitwise-AND this value with the flags field, which forces the fourth bit in the flags field to become 0, and causes every other bit to retain its current value.
+
+
