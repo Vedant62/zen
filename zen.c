@@ -60,16 +60,29 @@ void editorProcessKeypress()
     switch (c)
     {
     case CTRL_KEY('x'):
+        write(STDOUT_FILENO, "\x1b[2J", 4); // clears screen
+        write(STDOUT_FILENO, "\1xb[H", 3);
         exit(0);
         break;
     }
 }
 // output
+void editorDrawRows()
+{
+    int y;
+    for (y = 0; y < 24; y++)
+    {
+        write(STDOUT_FILENO, "~\r\n", 3);
+    }
+}
 void editorRefreshScreen()
 {
     write(STDOUT_FILENO, "\x1b[2J", 4); // clears screen
     write(STDOUT_FILENO, "\1xb[H", 3);  // cursor back to starting
+    editorDrawRows();
+    write(STDOUT_FILENO, "\1xb[H", 3);
 }
+
 // init
 int main()
 {
