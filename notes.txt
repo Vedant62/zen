@@ -17,7 +17,9 @@ We then bitwise-AND this value with the flags field, which forces the fourth bit
 7. when ICANON is set, terminal works in canonical mode, we unset it... now the program quits instantly when we press 'q'.
 
 C.
-1.Changed the exitting to CTRL + Q.
+1.Changed the exitting to CTRL + x.
 2. note that EAGAIN is a special error code indicating that no data is available right now, but it's not a permanent error.
 3. Escape seq always start with \x1b (27) and then [
 Escape sequences instruct the terminal to do various text formatting tasks, such as coloring text, moving the cursor around, and clearing parts of the screen.
+4. added Wno-strict-prototypes for that warning to go away.
+5. should be able to get the size of the terminal by simply calling ioctl() with the TIOCGWINSZ request.
