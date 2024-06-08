@@ -28,4 +28,5 @@ Escape sequences instruct the terminal to do various text formatting tasks, such
 which supports one operation: appending.
 7. realloc is used to resize the buffer. If the reallocation is successful, realloc returns a pointer to the newly allocated memory, else NULL.
 memcpy copies the 's' to the end of the 'new'.. thus appending.
+8. H command esc seq can also have args to specify position of cursor, we add 1 to convert from 0-indexed values to the 1-indexed values that the terminal uses.
 
