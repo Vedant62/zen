@@ -30,3 +30,7 @@ which supports one operation: appending.
 memcpy copies the 's' to the end of the 'new'.. thus appending.
 8. H command esc seq can also have args to specify position of cursor, we add 1 to convert from 0-indexed values to the 1-indexed values that the terminal uses.
 
+D.
+1. We'll be creating a data type for storing a row of text in our editor.
+2. erow stores a line of text as a pointer to the dynamically allocated character data and length
+3. lineptr should be NULL and linecap should be 0, before the first call by getline; it dynamically allocates and reallocates the buffer as needed.
