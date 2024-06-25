@@ -6,3 +6,10 @@
 <img width="1440" alt="Screenshot 2024-06-25 at 7 30 13 PM" src="https://github.com/Vedant62/zen/assets/67962477/5bb25067-b5af-4c21-ad17-9c0c1af511eb">
 
 - Development in progress...
+
+- [x] read and write files
+- [ ] search feature
+- [ ] syntax higlighting
+      
+- [ ] intellisense
+- [ ] telescope
